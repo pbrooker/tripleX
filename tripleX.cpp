@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 
 void PrintIntroduction(int LevelDifficulty)
 {
@@ -19,9 +20,9 @@ bool PlayGame(int LevelDifficulty)
 	PrintIntroduction(LevelDifficulty);
 
 	// Declare our code
-	const int CodeA = 4;
-	const int CodeB = 8;
-	const int CodeC = 6;
+	const int CodeA = rand() % LevelDifficulty + LevelDifficulty;
+	const int CodeB = rand() % LevelDifficulty + LevelDifficulty;
+	const int CodeC = rand() % LevelDifficulty + LevelDifficulty;
 
 	const int CodeSum = CodeA + CodeB + CodeC;
 	const int CodeProduct = CodeA * CodeB * CodeC;
@@ -48,7 +49,7 @@ bool PlayGame(int LevelDifficulty)
 		return true;
 	}
 	else {
-		std::cout << "\n\nImmediately upon entering the incorrect code, the hallway is exposed to searing flames. You have died a horrible and painful death.\n";
+		std::cout << "\n\nImmediately upon entering the incorrect code, omninus warning beeps sound. Try again.\n";
 		return false;
 	}
 
@@ -56,8 +57,14 @@ bool PlayGame(int LevelDifficulty)
 
 int main()
 {
+	srand(time(NULL));  // create new random sequence
+
+	const int MaxLevels = 5;
+	const int NumberOfTries = 5;
 	int LevelDifficulty = 1;
-	while (true)
+	int Tries = 1;
+
+	while (LevelDifficulty <= MaxLevels && Tries <= NumberOfTries)
 	{
 		bool bLevelComplete = PlayGame(LevelDifficulty);
 		std::cin.clear(); // clear any error
@@ -66,6 +73,16 @@ int main()
 		if (bLevelComplete) {
 			++LevelDifficulty;
 		}
+		else {
+			++Tries;
+		}
+	}
+	if (Tries <= MaxLevels) {
+		std::cout << "You have mastered all levels. Congratulations, you are an expert secret agent!";
+	}
+	else {
+		std::cout << "The owners of the server room have been alterted to your clumsy attempts at access\n\n";
+		std::cout << "Searing flames descend from openings that appeared in the ceiling. You have died a horrible and painful death.\n\nYou lose";
 	}
 
 	return 0;
