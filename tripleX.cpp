@@ -1,22 +1,22 @@
 #include <iostream>
 
-void PrintIntroduction()
+void PrintIntroduction(int LevelDifficulty)
 {
 	// Print welcome messages to start game
-	std::cout << "\n\n<<<<<<<<<<<<<<<<<<<<|[|]|>>>>>>>>>>>>>>>>>>>>\n";
-	std::cout << "You are a secret agent breaking into a secure server room\n";
-	std::cout << "Enter the correct code to continue...\n\n";
-	std::cout << "-------\n";
-	std::cout << "|1 2 3|\n";
-	std::cout << "|4 5 6|\n";
-	std::cout << "|7 8 9|\n";
-	std::cout << "|* 0 #|\n";
-	std::cout << "-------\n\n";
+	std::cout << "\n\n<<<<<<<<<<<<<<<<<<<<|[|]|>>>>>>>>>>>>>>>>>>>>\n\n";
+	std::cout << "You are a secret agent breaking into a level " << LevelDifficulty;
+	std::cout << " secure server room\nEnter the correct code to continue...\n\n";
+	std::cout << "  -------\n";
+	std::cout << "  |1 2 3|\n";
+	std::cout << "  |4 5 6|\n";
+	std::cout << "  |7 8 9|\n";
+	std::cout << "  |* 0 #|\n";
+	std::cout << "  -------\n\n";
 }
 
-void PlayGame()
+bool PlayGame(int LevelDifficulty)
 {
-	PrintIntroduction();
+	PrintIntroduction(LevelDifficulty);
 
 	// Declare our code
 	const int CodeA = 4;
@@ -45,15 +45,28 @@ void PlayGame()
 	if (GuessSum == CodeSum && GuessProduct == CodeProduct)
 	{
 		std::cout << "\n\nYou found the right code! You enter the server room. You're a winner!\n";
+		return true;
 	}
 	else {
 		std::cout << "\n\nImmediately upon entering the incorrect code, the hallway is exposed to searing flames. You have died a horrible and painful death.\n";
+		return false;
 	}
+
 }
 
 int main()
 {
-	PlayGame();
+	int LevelDifficulty = 1;
+	while (true)
+	{
+		bool bLevelComplete = PlayGame(LevelDifficulty);
+		std::cin.clear(); // clear any error
+		std::cin.ignore(); // empty buffer
+
+		if (bLevelComplete) {
+			++LevelDifficulty;
+		}
+	}
 
 	return 0;
 }
